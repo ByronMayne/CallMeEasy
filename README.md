@@ -48,10 +48,18 @@ public static void OnAssetMoved(string from, string to)
 By default these callbacks are not enabled. To get these to work Call Me Easy has to modify the Unity assembly and inject callbacks directly into the compiled editor code. It's suggested that you back up your installs on Mac (Unity on Windows copies the Unity dlls to the Library folder). We use [Mono.Cecil](https://github.com/jbevain/cecil) to open upt he dlls and insert IL directly into them. This is the same system that Unity uses to upgrade your projects. 
 
 ``` csharp
-[BuildStarted]
+[OnBuildStarted]
 public static void OnBuildStarted(string pathToBuild, BuildTarget buildTarget)
 {
 	// Called before Unity is about to start a build. 
+}
+```
+
+``` csharp
+[OnUnityMenuCreated]
+public static void OnUnityMenuCreated(string menuPath, GenericMenu genericMenu)
+{
+	// Called just as Unity is creating a menu item for it's built in toolbars.
 }
 ```
 
