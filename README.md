@@ -5,6 +5,10 @@ Call Me Easy is a libaray used to add more callbacks to Unity when process start
  * Simple to use, just apply your attributes.
  * Fully docuemented. 
  * With Mono.Cecil can support some internal callbacks that you can't get on your own. 
+ 
+## Runtime
+
+## Editor Only
 
 ``` csharp
 [OnEditorLaunched]
