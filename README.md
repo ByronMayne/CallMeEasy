@@ -9,26 +9,8 @@ Call Me Easy is a libaray used to add more callbacks to Unity when process start
 ## Runtime
 
 ## Editor Only
-
 ``` csharp
-[OnEditorLaunched]
-public static void OnEditorLaunched()
-{
-	// Called when Unity opened for the first time. 
-}
-```
-
-``` csharp
-[OnEditorClosed]
-public static void OnEditorClosed()
-{
-	// Called when Unity has just about to close. Should not be used
-    // for any Unity functionality. 
-}
-```
-
-``` csharp
-[OnAssetImported]
+[OnAssetImported.Attribute]
 public static void OnAssetImported(string asset)
 {
 	// Callled whenever a new asset is imported to Unity
@@ -36,8 +18,16 @@ public static void OnAssetImported(string asset)
 ```
 
 ``` csharp 
-[OnAssetMoved]
+[OnAssetMoved.Attribute]
 public static void OnAssetMoved(string from, string to)
+{
+	// Called when an asset is moved from one place in Unity to another.
+}
+```
+
+``` csharp 
+[OnAssetDeleted.Attribute]
+public static void OnAssetDeleted(string path)
 {
 	// Called when an asset is moved from one place in Unity to another.
 }
