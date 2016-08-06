@@ -47,7 +47,7 @@ protected static class ExampleClass
     [OnAssetMoved.Attribute]
     public static void OnAssetMoved(string from, string to)
     {
-    	// Called when an asset is deleted inside of Unity
+    	// Called when an asset is moved inside of Unity
     }
 }
 ```
