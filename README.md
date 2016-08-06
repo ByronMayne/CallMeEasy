@@ -67,7 +67,7 @@ private class ExampleClass
 
 ## Injected Callbacks 
 
-By default these callbacks are not enabled. To get these to work Call Me Easy has to modify the Unity assembly and inject callbacks directly into the compiled editor code. It's suggested that you back up your installs on Mac (Unity on Windows copies the Unity dlls to the Library folder). We use [Mono.Cecil](https://github.com/jbevain/cecil) to open upt he dlls and insert IL directly into them. This is the same system that Unity uses to upgrade your projects. 
+By default these callbacks are not enabled. To get these to work Call Me Easy has to modify the Unity assembly and inject callbacks directly into the compiled editor code. It's suggested that you back up your installs on Mac (Unity on Windows copies the Unity dlls to the Library folder). We use [Mono.Cecil](https://github.com/jbevain/cecil) to open up the dlls and insert IL directly into them. This is the same system that Unity uses to upgrade your projects. 
 
 ``` csharp
 [OnBuildStarted]
