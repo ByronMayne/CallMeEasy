@@ -36,7 +36,7 @@ public class ExampleClass
     {
     	// Callled whenever a new asset is imported to Unity
     }
-    }
+}
 ```
 ##### Asset Moved
 This attribute gets called every time an asset gets moved in Unity. It will invoke the method it's attached to if it's a static method inside a class that has a ```[CallMeEasy]``` attribute applied to it. The sigurture has to be ```static void Method(string, string)``` and can be public or non public. If you would like to respond to the callback in instance based methods you can do so with the delegate ```OnAssetMoved.AddListener``` or to remove it ```OnAssetMoved.RemoveListener```. Note subscribing to delegates is much faster the using the attributes directly. 
@@ -49,7 +49,7 @@ protected static class ExampleClass
     {
     	// Called when an asset is deleted inside of Unity
     }
-]
+}
 ```
 ##### Asset Deleted
 This attribute gets called every time an asset gets deleted in Unity. It will invoke the method it's attached to if it's a static method inside a class that has a ```[CallMeEasy]``` attribute applied to it. The sigurture has to be ```static void Method(string)``` and can be public or non public. If you would like to respond to the callback in instance based methods you can do so with the delegate ```OnAssetDeleted.AddListener``` or to remove it ```OnAssetDeleted.RemoveListener```. Note subscribing to delegates is much faster the using the attributes directly. 
