@@ -1,18 +1,20 @@
 ﻿using Mono.Cecil;
 using Mono.Collections.Generic;
-using System.IO;
+using System;
+using System.Reflection;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace CallMeBack
+namespace CallMeEasy
 {
+  [System.Flags]
   public enum AssemblyTypes : int
   {
-    UnityEngine,
-    UnityEditor,
-    CSharpEngine,
-    CSharpEditor,
-    Plugin,
+    UnityEngine = 1 << 1,
+    UnityEditor = 1 << 2,
+    CSharpEngine = 1 << 3,
+    CSharpEditor = 1 << 4,
+    Plugins = 1 << 5,
   }
 
   [UnityEditor.InitializeOnLoad]
@@ -34,9 +36,6 @@ namespace CallMeBack
     // Resolver
     private static ReaderParameters m_ReaderParameters;
     private static IAssemblyResolver m_AssemblyResolver;
-
-    // Editing Assembly
-
 
     static AssemblyUtility()
     {
@@ -119,7 +118,7 @@ namespace CallMeBack
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    public static AssemblyDefinition GetAssembly(AssemblyTypes type)
+    public static AssemblyDefinition GetAssemblyDefinition(AssemblyTypes type)
     {
       switch (type)
       {
@@ -131,6 +130,23 @@ namespace CallMeBack
           return GetCSharpEngineAssemblyDefinition();
         case AssemblyTypes.CSharpEditor:
           return GetCSharpEditorAssemblyDefinition();
+        default:
+          return null;
+      }
+    }
+
+    public static Assembly GetAssembly(AssemblyTypes type)
+    {
+      switch (type)
+      {
+        case AssemblyTypes.UnityEngine:
+          return Assembly.LoadFrom(UNITY_ENGINE_PATH);
+        case AssemblyTypes.UnityEditor:
+          return Assembly.LoadFrom(UNITY_EDITOR_PATH);
+        case AssemblyTypes.CSharpEngine:
+          return Assembly.LoadFrom(ASSEMBLY_SCHARP_ENGINE_PATH);
+        case AssemblyTypes.CSharpEditor:
+          return Assembly.LoadFrom(ASSEMBLY_CSHARP_EDITOR_PATH);
         default:
           return null;
       }
@@ -182,6 +198,36 @@ namespace CallMeBack
       }
 
       return null;
+    }
+
+    /// <summary>
+    /// Looks over all included assemblies and finds all static methods that have the attribute of type T. 
+    /// </summary>
+    public static Collection<MethodInfo> GetStaticMethodsWithAttribute<T>(AssemblyTypes includedAssemblies) where T : System.Attribute
+    {
+      Collection<MethodInfo> m_Methods = new Collection<MethodInfo>();
+
+      foreach (AssemblyTypes enumType in Enum.GetValues(typeof(AssemblyTypes)))
+      {
+        if ((enumType & includedAssemblies) == enumType)
+        {
+          Assembly asmDef = GetAssembly(enumType);
+          foreach (Type type in asmDef.GetTypes())
+          {
+            if (Attribute.GetCustomAttribute(type, typeof(CallMeEasyAttribute)) != null)
+            {
+              foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
+              {
+                if (Attribute.GetCustomAttribute(method, typeof(T)) != null)
+                {
+                  m_Methods.Add(method);
+                }
+              }
+            }
+          }
+        }
+      }
+      return m_Methods;
     }
   }
 }

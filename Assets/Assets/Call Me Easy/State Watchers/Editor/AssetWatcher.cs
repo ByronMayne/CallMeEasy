@@ -3,11 +3,10 @@
   /// <summary>
   /// With this asset post process we use it to keep track and invoke the asset callbacks.
   /// </summary>
-  public class AssetPostprocessor : UnityEditor.AssetPostprocessor
+  public class AssetPostprocessor : UnityEditor.AssetModificationProcessor
   {
     public static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
     {
-      UnityEngine.Debug.Log("Asset");
       for(int i = 0; i < importedAssets.Length; i++)
       {
         Waygate.InvokeCallback<OnAssetImported.Attribute>(importedAssets[i]);
