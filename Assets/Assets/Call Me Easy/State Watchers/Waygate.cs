@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System;
+using System.Reflection;
 
-public class Waygate : MonoBehaviour {
+public class Waygate : MonoBehaviour
+{
+  private Dictionary<Type, List<MethodInfo>> m_CachedMethods;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+  private static void FindAttribute<T>() where T : Attribute
+  {
+    
+  }
 }
