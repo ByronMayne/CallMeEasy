@@ -5,7 +5,18 @@ Call Me Easy is a libaray used to add more callbacks to Unity when process start
  * Simple to use, just apply your attributes.
  * Fully docuemented. 
  * With Mono.Cecil can support some internal callbacks that you can't get on your own. 
- 
+
+## Notes
+All class that have methods that use the following attributes have to have the following attribute on their class definition. This allows CallMeEasy to skip over any classes that don't have attributes greatly increasing lookup time. All lookups are cached and are cleared every time assemblies get recompiled. 
+
+``` csharp
+[CallMeEasyAttribute]
+public class MyClass
+{
+	// Methods
+}
+```
+
 ## Runtime
 
 ## Editor Only
