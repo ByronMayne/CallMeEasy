@@ -21,7 +21,7 @@ public static void OnAssetImported(string asset)
 [OnAssetMoved.Attribute]
 public static void OnAssetMoved(string from, string to)
 {
-	// Called when an asset is moved from one place in Unity to another.
+	// Called when an asset is deleted inside of Unity
 }
 ```
 
