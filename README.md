@@ -7,40 +7,57 @@ Call Me Easy is a libaray used to add more callbacks to Unity when process start
  * With Mono.Cecil can support some internal callbacks that you can't get on your own. 
 
 ## Notes
-All class that have methods that use the following attributes have to have the following attribute on their class definition. This allows CallMeEasy to skip over any classes that don't have attributes greatly increasing lookup time. All lookups are cached and are cleared every time assemblies get recompiled. 
+All classes that have methods that use the following attributes have to have the following attribute on their class definition. This allows CallMeEasy to skip over any classes that don't have attributes greatly increasing lookup time. All lookups are cached and are cleared every time assemblies get recompiled. 
 
 ``` csharp
 [CallMeEasyAttribute]
 public class MyClass
 {
-	// Methods
+	[OnAssetMoved.Attribute]
+	public static OnAssetMoved(string path)
+	{
+		// Just like this!
+	}
 }
 ```
 
 ## Runtime
 
 ## Editor Only
+##### Asset Imported
+This attribute gets called every time an asset gets imported in Unity. It will invoke the method it's attached to if it's a static method inside a class that has a ```[CallMeEasy]``` attribute applied to it.The sigurture has to be ```static void Method(string)``` and can be public or non public. If you would like to respond to the callback in instance based methods you can do so with the delegate ```OnAssetImported.AddListener``` or to remove it ```OnAssetImported.RemoveListener```. Note subscribing to delegates is much faster the using the attributes directly. 
+###
 ``` csharp
-[OnAssetImported.Attribute]
-public static void OnAssetImported(string asset)
+[CallMeEasy]
+public class ExampleClass
 {
-	// Callled whenever a new asset is imported to Unity
-}
+    [OnAssetImported.Attribute]
+    public static void OnAssetImported(string asset)
+    {
+    	// Callled whenever a new asset is imported to Unity
+    }
+    }
 ```
-
+##### Asset Moved
+This attribute gets called every time an asset gets moved in Unity. It will invoke the method it's attached to if it's a static method inside a class that has a ```[CallMeEasy]``` attribute applied to it. The sigurture has to be ```static void Method(string, string)``` and can be public or non public. If you would like to respond to the callback in instance based methods you can do so with the delegate ```OnAssetMoved.AddListener``` or to remove it ```OnAssetMoved.RemoveListener```. Note subscribing to delegates is much faster the using the attributes directly. 
 ``` csharp 
-[OnAssetMoved.Attribute]
-public static void OnAssetMoved(string from, string to)
+[CallMeEasy]
+public static class ExampleClass
 {
-	// Called when an asset is deleted inside of Unity
-}
+    [OnAssetMoved.Attribute]
+    public static void OnAssetMoved(string from, string to)
+    {
+    	// Called when an asset is deleted inside of Unity
+    }
+]
 ```
-
+##### Asset Deleted
+This attribute gets called every time an asset gets deleted in Unity. It will invoke the method it's attached to if it's a static method inside a class that has a ```[CallMeEasy]``` attribute applied to it. The sigurture has to be ```static void Method(string)``` and can be public or non public. If you would like to respond to the callback in instance based methods you can do so with the delegate ```OnAssetDeleted.AddListener``` or to remove it ```OnAssetDeleted.RemoveListener```. Note subscribing to delegates is much faster the using the attributes directly. 
 ``` csharp 
 [OnAssetDeleted.Attribute]
 public static void OnAssetDeleted(string path)
 {
-	// Called when an asset is moved from one place in Unity to another.
+	// Called when an asset is deleted
 }
 ```
 
